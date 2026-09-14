@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1067" width="800" height="1067">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#F5F0E8"/>
+      <stop offset="100%" stop-color="#E8E0D4"/>
+    </linearGradient>
+    <linearGradient id="fabric" x1="0" y1="0" x2="0.5" y2="1">
+      <stop offset="0%" stop-color="#C5D5E8"/>
+      <stop offset="50%" stop-color="#A8BFDA"/>
+      <stop offset="100%" stop-color="#8BA8CC"/>
+    </linearGradient>
+    <linearGradient id="pattern" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#203A85"/>
+      <stop offset="100%" stop-color="#0B2C96"/>
+    </linearGradient>
+    <filter id="shadow"><feDropShadow dx="0" dy="20" stdDeviation="30" flood-color="#000" flood-opacity="0.12"/></filter>
+    <radialGradient id="glow" cx="50%" cy="40%" r="55%">
+      <stop offset="0%" stop-color="#fff" stop-opacity="0.45"/>
+      <stop offset="100%" stop-color="#fff" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="800" height="1067" fill="url(#bg)"/>
+  <ellipse cx="400" cy="420" rx="450" ry="380" fill="url(#glow)"/>
+
+  <!-- Curtain drape -->
+  <g filter="url(#shadow)">
+    <path d="M200,100 Q250,80 350,90 Q450,80 550,100 Q600,110 620,130 L630,900 Q600,930 500,940 Q400,950 300,940 Q200,930 170,900 Z" fill="url(#fabric)"/>
+    <!-- Curtain folds -->
+    <path d="M250,120 Q300,100 350,115 Q400,105 450,120 Q500,110 550,125" stroke="#8BA8CC" stroke-width="3" fill="none" opacity="0.4"/>
+    <path d="M240,200 Q310,180 380,195 Q450,185 520,200 Q570,190 600,205" stroke="#8BA8CC" stroke-width="2.5" fill="none" opacity="0.35"/>
+    <path d="M230,300 Q310,280 390,295 Q470,285 540,300 Q590,290 610,305" stroke="#8BA8CC" stroke-width="2" fill="none" opacity="0.3"/>
+    <path d="M220,400 Q310,380 400,395 Q490,385 560,400 Q600,390 620,405" stroke="#8BA8CC" stroke-width="2" fill="none" opacity="0.25"/>
+    <!-- Pattern -->
+    <g opacity="0.15">
+      <rect x="280" y="150" width="20" height="20" rx="2" fill="url(#pattern)"/>
+      <rect x="320" y="150" width="20" height="20" rx="2" fill="url(#pattern)"/>
+      <rect x="360" y="150" width="20" height="20" rx="2" fill="url(#pattern)"/>
+      <rect x="400" y="150" width="20" height="20" rx="2" fill="url(#pattern)"/>
+      <rect x="440" y="150" width="20" height="20" rx="2" fill="url(#pattern)"/>
+      <rect x="480" y="150" width="20" height="20" rx="2" fill="url(#pattern)"/>
+      <rect x="520" y="150" width="20" height="20" rx="2" fill="url(#pattern)"/>
+    </g>
+  </g>
+
+  <!-- Cushion -->
+  <g filter="url(#shadow)" transform="translate(200,550)">
+    <rect x="0" y="0" width="160" height="120" rx="12" fill="#C5D5E8"/>
+    <rect x="8" y="8" width="144" height="104" rx="8" fill="#A8BFDA"/>
+    <rect x="16" y="16" width="128" height="88" rx="6" fill="url(#fabric)"/>
+    <!-- Pattern on cushion -->
+    <g opacity="0.3">
+      <circle cx="80" cy="60" r="20" fill="none" stroke="#203A85" stroke-width="1.5"/>
+      <circle cx="80" cy="60" r="12" fill="none" stroke="#203A85" stroke-width="1"/>
+    </g>
+  </g>
+
+  <!-- Bedspread fold -->
+  <g filter="url(#shadow)" transform="translate(400,600)">
+    <path d="M0,0 Q80,-20 160,0 Q200,10 220,30 L220,200 Q180,220 100,230 Q20,220 -20,200 Z" fill="#A8BFDA"/>
+    <path d="M10,20 Q80,5 160,20" stroke="#8BA8CC" stroke-width="2" fill="none" opacity="0.4"/>
+    <path d="M5,50 Q80,35 165,50" stroke="#8BA8CC" stroke-width="1.5" fill="none" opacity="0.3"/>
+  </g>
+
+  <text x="400" y="1020" text-anchor="middle" font-family="Georgia, serif" font-size="14" fill="#203A85" opacity="0.3" letter-spacing="8">HOME FURNISHINGS</text>
+</svg>

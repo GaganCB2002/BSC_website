@@ -1,0 +1,9 @@
+node_modules/
+database/data/*.db
+database/data/*.db-wal
+database/data/*.db-shm
+database/data/login-lockouts.json
+.env
+*.log
+.DS_Store
+Thumbs.db

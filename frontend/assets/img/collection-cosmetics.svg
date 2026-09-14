@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" fill="none">
+  <!-- Cosmetics — lipstick and compact -->
+  <g stroke="#203A85" stroke-width="3">
+    <rect x="96" y="120" width="40" height="110" rx="6" fill="#fff"/>
+    <rect x="96" y="96" width="40" height="26" rx="4" stroke="#CA2125"/>
+  </g>
+  <path d="M102 96c0-22 12-34 28-38 0 14 0 26 0 38" fill="#CA2125" stroke="#CA2125" stroke-width="3"/>
+  <path d="M88 230h56" stroke="#203A85" stroke-width="3" stroke-linecap="round"/>
+  <g stroke="#C77F2B" stroke-width="3.2">
+    <circle cx="252" cy="162" r="62" fill="#fff"/>
+    <circle cx="252" cy="162" r="44" stroke="#203A85" stroke-width="2.2"/>
+  </g>
+  <path d="M224 134c14 4 30 4 44 10M226 190c12 4 26 2 40 4" stroke="#CA2125" stroke-width="2.4" opacity=".65"/>
+  <path d="M252 100v-18M252 224v18M190 162h-18M314 162h18" stroke="#C77F2B" stroke-width="2.4" stroke-linecap="round"/>
+</svg>

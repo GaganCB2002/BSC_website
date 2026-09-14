@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" fill="none">
+  <!-- Fashion accessories — handbag, belt and dupatta drape -->
+  <g stroke="#203A85" stroke-width="3.2" stroke-linejoin="round">
+    <path d="M110 128h130l-14 96H124Z" fill="#fff"/>
+    <path d="M138 128c0-26 14-40 37-40s37 14 37 40" stroke="#CA2125"/>
+    <path d="M158 128v96M192 128v96" stroke-width="2" opacity=".5"/>
+  </g>
+  <circle cx="175" cy="176" r="10" stroke="#C77F2B" stroke-width="3"/>
+  <g stroke="#CA2125" stroke-width="3">
+    <path d="M292 118h64v26h-64z" fill="#fff"/>
+    <rect x="316" y="112" width="18" height="38" rx="4" stroke="#C77F2B"/>
+  </g>
+  <path d="M56 258c60-26 120-20 168 4s90 10 120-16" stroke="#C77F2B" stroke-width="2.6" stroke-dasharray="1 9" stroke-linecap="round"/>
+</svg>

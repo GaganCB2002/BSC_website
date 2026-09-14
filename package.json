@@ -1,0 +1,22 @@
+{
+  "name": "bsc-complete-family-store",
+  "version": "1.0.0",
+  "description": "BSC — The Complete Family Store (Davanagere). Minimalist site with 3D scroll-driven hero + built-in visitor analytics and admin dashboard.",
+  "type": "commonjs",
+  "main": "server.js",
+  "scripts": {
+    "start": "node backend/server.js",
+    "dev": "node backend/server.js",
+    "vendor": "node -e \"const fs=require('fs');fs.copyFileSync('node_modules/three/build/three.module.js','frontend/vendor/three/three.module.js');fs.copyFileSync('node_modules/three/build/three.core.js','frontend/vendor/three/three.core.js');fs.copyFileSync('node_modules/gsap/dist/gsap.min.js','frontend/vendor/gsap/gsap.min.js');fs.copyFileSync('node_modules/gsap/dist/ScrollTrigger.min.js','frontend/vendor/gsap/ScrollTrigger.min.js');console.log('vendored')\"",
+    "admin:pass": "node scripts/set-admin-password.js",
+    "admin:view": "node scripts/admin-account.js",
+    "db:reseed": "node -e \"require('./backend/content').seedForce();console.log('content tables reseeded')\""
+  },
+  "dependencies": {
+    "express": "^4.21.2"
+  },
+  "devDependencies": {
+    "gsap": "^3.13.0",
+    "three": "^0.171.0"
+  }
+}

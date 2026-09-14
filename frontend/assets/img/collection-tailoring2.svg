@@ -1,0 +1,94 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1067" width="800" height="1067">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#F5F2EE"/>
+      <stop offset="100%" stop-color="#E8E2DA"/>
+    </linearGradient>
+    <linearGradient id="fabric" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#2A2A2A"/>
+      <stop offset="100%" stop-color="#1A1A1A"/>
+    </linearGradient>
+    <linearGradient id="metal" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#C0C0C0"/>
+      <stop offset="50%" stop-color="#A0A0A0"/>
+      <stop offset="100%" stop-color="#808080"/>
+    </linearGradient>
+    <filter id="shadow"><feDropShadow dx="0" dy="15" stdDeviation="25" flood-color="#000" flood-opacity="0.12"/></filter>
+    <radialGradient id="glow" cx="50%" cy="40%" r="55%">
+      <stop offset="0%" stop-color="#fff" stop-opacity="0.4"/>
+      <stop offset="100%" stop-color="#fff" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="800" height="1067" fill="url(#bg)"/>
+  <ellipse cx="400" cy="400" rx="420" ry="360" fill="url(#glow)"/>
+
+  <!-- Scissors -->
+  <g filter="url(#shadow)" transform="translate(350,300) rotate(-30)">
+    <path d="M0,0 L-80,60 Q-90,70 -85,80 L-70,70 Q-60,60 0,0 Z" fill="url(#metal)"/>
+    <path d="M0,0 L80,60 Q90,70 85,80 L70,70 Q60,60 0,0 Z" fill="url(#metal)"/>
+    <circle cx="0" cy="0" r="12" fill="#A0A0A0" stroke="#808080" stroke-width="2"/>
+    <circle cx="0" cy="0" r="6" fill="#C0C0C0"/>
+    <!-- Blade shine -->
+    <path d="M-10,5 L-70,55" stroke="#fff" stroke-width="1" opacity="0.3"/>
+    <path d="M10,5 L70,55" stroke="#fff" stroke-width="1" opacity="0.3"/>
+  </g>
+
+  <!-- Measuring tape -->
+  <g filter="url(#shadow)" transform="translate(500,400)">
+    <path d="M-80,0 Q-40,-30 0,-20 Q40,-10 80,0 Q100,5 90,15 Q50,10 0,5 Q-50,0 -80,0 Z" fill="#D4AF37"/>
+    <path d="M-75,2 Q-35,-25 5,-18 Q45,-10 78,2" stroke="#B8960F" stroke-width="0.5" fill="none"/>
+    <!-- Markings -->
+    <g font-family="Arial, sans-serif" font-size="6" fill="#8B7355">
+      <text x="-60" y="0">1</text>
+      <text x="-40" y="-8">2</text>
+      <text x="-20" y="-14">3</text>
+      <text x="0" y="-16">4</text>
+      <text x="20" y="-14">5</text>
+      <text x="40" y="-8">6</text>
+      <text x="60" y="0">7</text>
+    </g>
+  </g>
+
+  <!-- Thread spool -->
+  <g filter="url(#shadow)" transform="translate(250,500)">
+    <rect x="-25" y="-35" width="50" height="70" rx="4" fill="#8B4513"/>
+    <rect x="-20" y="-25" width="40" height="50" rx="2" fill="#CA2125"/>
+    <rect x="-25" y="-35" width="50" height="8" rx="2" fill="#6B3510"/>
+    <rect x="-25" y="27" width="50" height="8" rx="2" fill="#6B3510"/>
+    <!-- Thread -->
+    <path d="M0,-25 Q15,-20 10,-10 Q5,0 15,10 Q25,20 10,25" stroke="#CA2125" stroke-width="1.5" fill="none"/>
+  </g>
+
+  <!-- Chalk -->
+  <g filter="url(#shadow)" transform="translate(450,550) rotate(15)">
+    <rect x="-8" y="-40" width="16" height="80" rx="4" fill="#F5F2EE" stroke="#E0DDD5" stroke-width="1"/>
+    <rect x="-6" y="-38" width="12" height="30" rx="2" fill="#fff"/>
+  </g>
+
+  <!-- Pin cushion -->
+  <g filter="url(#shadow)" transform="translate(350,580)">
+    <ellipse cx="0" cy="0" rx="50" ry="35" fill="#CA2125"/>
+    <ellipse cx="0" cy="-5" rx="45" ry="28" fill="#BF0908"/>
+    <!-- Pins -->
+    <line x1="-20" y1="-10" x2="-25" y2="-30" stroke="#C0C0C0" stroke-width="1.5"/>
+    <circle cx="-25" cy="-32" r="3" fill="#D4AF37"/>
+    <line x1="0" y1="-15" x2="0" y2="-35" stroke="#C0C0C0" stroke-width="1.5"/>
+    <circle cx="0" cy="-37" r="3" fill="#CA2125"/>
+    <line x1="20" y1="-10" x2="25" y2="-30" stroke="#C0C0C0" stroke-width="1.5"/>
+    <circle cx="25" cy="-32" r="3" fill="#203A85"/>
+    <line x1="10" y1="-12" x2="15" y2="-32" stroke="#C0C0C0" stroke-width="1.5"/>
+    <circle cx="15" cy="-34" r="3" fill="#D4AF37"/>
+    <line x1="-10" y1="-12" x2="-15" y2="-32" stroke="#C0C0C0" stroke-width="1.5"/>
+    <circle cx="-15" cy="-34" r="3" fill="#8B0000"/>
+  </g>
+
+  <!-- Needle -->
+  <g transform="translate(550,300) rotate(-45)">
+    <line x1="0" y1="0" x2="0" y2="60" stroke="#C0C0C0" stroke-width="2"/>
+    <ellipse cx="0" cy="0" rx="3" ry="5" fill="none" stroke="#C0C0C0" stroke-width="1"/>
+    <path d="M0,60 L-1,55 L1,55 Z" fill="#C0C0C0"/>
+  </g>
+
+  <text x="400" y="1020" text-anchor="middle" font-family="Georgia, serif" font-size="14" fill="#2A2A2A" opacity="0.3" letter-spacing="8">EXPERT TAILORING</text>
+</svg>

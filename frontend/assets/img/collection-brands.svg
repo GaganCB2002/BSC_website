@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" fill="none">
+  <!-- Curated brands — shelf of spools and boxes -->
+  <path d="M60 216h280M60 264h280" stroke="#203A85" stroke-width="3.4" stroke-linecap="round"/>
+  <g stroke-width="3">
+    <rect x="86" y="150" width="34" height="66" rx="6" fill="#fff" stroke="#CA2125"/>
+    <rect x="134" y="164" width="34" height="52" rx="6" fill="#fff" stroke="#203A85"/>
+    <rect x="182" y="150" width="34" height="66" rx="6" fill="#fff" stroke="#C77F2B"/>
+  </g>
+  <path d="M103 150v-18M151 164v-14M199 150v-20" stroke="#203A85" stroke-width="2.2"/>
+  <path d="M86 168h34M134 180h34M182 168h34" stroke-width="2" opacity=".5" stroke="#203A85"/>
+  <g stroke="#203A85" stroke-width="2.6">
+    <rect x="238" y="188" width="88" height="28" rx="5" fill="#fff"/>
+    <rect x="248" y="160" width="68" height="28" rx="5" fill="#fff"/>
+    <rect x="258" y="132" width="48" height="28" rx="5" fill="#fff" stroke="#CA2125"/>
+  </g>
+  <path d="M258 146h48M248 174h68M238 202h88" stroke="#CA2125" stroke-width="2" opacity=".55"/>
+</svg>

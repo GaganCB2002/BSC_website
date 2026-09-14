@@ -1,0 +1,506 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>BSC Analytics — Admin Dashboard</title>
+<link rel="icon" type="image/png" href="/assets/favicon.png">
+<style>
+:root{--red:#CA2125;--navy:#203A85;--navy-d:#0B2C96;--ink:#171B2C;--mut:#5A5F72;--paper:#F6F4EF;--line:#E3DED2;
+--serif:"Iowan Old Style","Palatino Linotype",Georgia,serif;--sans:ui-sans-serif,system-ui,"Segoe UI",Roboto,sans-serif;
+--ease:cubic-bezier(.22,.9,.12,1);--snap:cubic-bezier(.16,1.02,.28,1);
+--sidebar-w:220px;--sidebar-bg:#171B2C;--sidebar-active:rgba(202,33,37,.15)}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:20px}
+body{font:14px/1.55 var(--sans);background:var(--paper);color:var(--ink);min-height:100vh}
+h1,h2,h3{font-family:var(--serif);font-weight:500;letter-spacing:-.01em}
+a{color:var(--navy);text-decoration:none} button{font:inherit;cursor:pointer}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{transition-duration:.01ms!important;animation-duration:.01ms!important}}
+
+/* ---------- login ---------- */
+#login{position:fixed;inset:0;background:var(--paper);display:grid;place-items:center;z-index:200}
+#login .box{background:#fff;border:1px solid var(--line);border-radius:18px;padding:34px 34px 28px;width:min(380px,92vw);
+  box-shadow:0 40px 80px -40px rgba(23,27,44,.35);text-align:center}
+#login img{height:64px;margin-bottom:10px}
+#login h1{font-size:22px;margin-bottom:4px} #login p{font-size:12.5px;color:var(--mut);margin-bottom:16px}
+#login input{width:100%;border:1px solid var(--line);border-radius:10px;padding:12px 14px;font:14px var(--sans);margin-bottom:10px;text-align:center}
+#login button{width:100%;border:0;border-radius:10px;padding:12px;background:var(--red);color:#fff;font-weight:700;margin-bottom:6px;transition:opacity .2s}
+#login button:disabled{opacity:.6;cursor:not-allowed;background:#888}
+#login .err{color:var(--red);font-size:12px;min-height:16px;line-height:1.4}
+
+/* ---------- layout wrapper ---------- */
+.layout{display:none;min-height:100vh}
+.layout.show{display:flex}
+
+/* ---------- LEFT SIDEBAR ---------- */
+.sidebar{position:fixed;top:0;left:0;bottom:0;width:var(--sidebar-w);background:var(--sidebar-bg);
+  display:flex;flex-direction:column;z-index:100;overflow-y:auto;transition:transform .3s var(--ease)}
+.sidebar-head{padding:20px 18px 16px;border-bottom:1px solid rgba(255,255,255,.08)}
+.sidebar-head img{height:36px;filter:brightness(0) invert(1);opacity:.9}
+.sidebar-head p{font-size:10px;color:rgba(255,255,255,.4);letter-spacing:.14em;text-transform:uppercase;margin-top:6px}
+.sidebar-nav{flex:1;padding:12px 0}
+.sidebar-nav a{display:flex;align-items:center;gap:12px;padding:11px 20px;color:rgba(255,255,255,.55);
+  font-size:13px;font-weight:500;transition:all .2s;position:relative;border-left:3px solid transparent}
+.sidebar-nav a:hover{color:#fff;background:rgba(255,255,255,.05)}
+.sidebar-nav a.on{color:#fff;background:var(--sidebar-active);border-left-color:var(--red)}
+.sidebar-nav a.on::after{content:"";position:absolute;left:0;top:8px;bottom:8px;width:3px;background:var(--red);border-radius:0 3px 3px 0}
+.sidebar-nav a svg{width:18px;height:18px;flex:none;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.sidebar-nav .sep{height:1px;background:rgba(255,255,255,.08);margin:8px 18px}
+.sidebar-foot{padding:14px 18px;border-top:1px solid rgba(255,255,255,.08)}
+.sidebar-foot .role-pill{display:inline-block;font-size:10px;font-weight:700;padding:3px 10px;border-radius:99px;margin-bottom:8px}
+.sidebar-foot .role-pill.owner{background:rgba(46,204,113,.15);color:#2ECC71}
+.sidebar-foot .role-pill.viewer{background:rgba(202,33,37,.15);color:#E4574F}
+.sidebar-foot .signout{display:block;width:100%;padding:9px;border:1px solid rgba(255,255,255,.15);background:transparent;
+  color:rgba(255,255,255,.5);border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;transition:all .2s}
+.sidebar-foot .signout:hover{border-color:var(--red);color:#fff;background:rgba(202,33,37,.2)}
+.sidebar-toggle{display:none;position:fixed;top:12px;left:12px;z-index:110;width:40px;height:40px;border-radius:10px;
+  background:var(--sidebar-bg);border:0;color:#fff;font-size:20px;cursor:pointer;align-items:center;justify-content:center}
+
+/* ---------- MAIN CONTENT ---------- */
+.content{margin-left:var(--sidebar-w);flex:1;min-height:100vh;display:flex;flex-direction:column}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:14px 22px;background:#fff;
+  border-bottom:1px solid var(--line);position:sticky;top:0;z-index:30;flex-wrap:wrap}
+.topbar-title{font-family:var(--serif);font-size:18px;font-weight:500}
+.range{display:flex;align-items:center;gap:8px;font-size:12px;flex-wrap:wrap}
+.range input,.range select{border:1px solid var(--line);border-radius:8px;padding:6px 8px;background:#fff;font:12px var(--sans)}
+.range button{border:1px solid var(--line);background:#fff;border-radius:8px;padding:6px 12px;font-size:12px;font-weight:600;cursor:pointer}
+.range button:hover{border-color:var(--navy);color:var(--navy)}
+.main-inner{padding:22px clamp(14px,2.4vw,26px) 80px;max-width:1280px;flex:1}
+.main-inner>section{padding-top:26px}
+.main-inner>section:first-child{padding-top:0}
+.sect-title{font-family:var(--serif);font-size:clamp(1.4rem,2.6vw,1.8rem);margin-bottom:2px}
+.sect-sub{font-size:12px;color:var(--mut);margin-bottom:14px}
+
+/* ---------- cards ---------- */
+.grid{display:grid;gap:14px}
+.kpis{grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
+.card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px 18px}
+.card h3{font-size:11px;letter-spacing:.14em;text-transform:uppercase;font-family:var(--sans);font-weight:700;color:var(--mut);margin-bottom:10px}
+.rv{opacity:0;transform:translateY(26px);transition:opacity .7s ease,transform .8s var(--ease)}
+.rv.in{opacity:1;transform:none}
+.rv:nth-child(2n){transition-delay:.07s}.rv:nth-child(3n){transition-delay:.12s}
+
+.kpi b{display:block;font-family:var(--serif);font-size:30px;line-height:1.1;color:var(--navy)}
+.kpi.red b{color:var(--red)}
+.kpi i{font-style:normal;font-size:12px;color:var(--mut)}
+.row2{grid-template-columns:1.5fr 1fr}
+.row2e{grid-template-columns:1fr 1fr}
+@media(max-width:900px){.row2,.row2e{grid-template-columns:1fr}}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--mut);text-align:left;padding:8px 10px;border-bottom:1px solid var(--line)}
+td{padding:8px 10px;border-bottom:1px solid #EEE9DE;vertical-align:top}
+tr:hover td{background:#FBFAF6}
+.bar{height:7px;border-radius:4px;background:linear-gradient(90deg,var(--red),#E4574F);min-width:3px}
+.bar.n{background:linear-gradient(90deg,var(--navy),#4A6BC9)}
+.bars{display:flex;align-items:flex-end;gap:5px;height:150px;padding-top:8px}
+.bars .b{flex:1;position:relative;border-radius:4px 4px 2px 2px;background:linear-gradient(var(--red),#E88C86);min-height:2px;transition:filter .15s;cursor:pointer}
+.bars .b:hover{filter:brightness(.85)}
+.bars .b i{position:absolute;top:-19px;left:50%;transform:translateX(-50%);font-style:normal;font-size:10px;color:var(--mut)}
+.xlab{display:flex;justify-content:space-between;font-size:10px;color:var(--mut);margin-top:6px}
+
+/* ---------- calendar ---------- */
+.cal-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.cal-head b{font-family:var(--serif);font-size:17px}
+.cal-head button{border:1px solid var(--line);background:#fff;border-radius:8px;padding:3px 10px}
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}
+.cal .dow{font-size:10px;color:var(--mut);text-align:center;letter-spacing:.1em}
+.cal .day{aspect-ratio:1.06;border:1px solid var(--line);border-radius:9px;background:#fff;position:relative;display:flex;
+  flex-direction:column;align-items:center;justify-content:center;font-size:12.5px;cursor:default}
+.cal .day.has{cursor:pointer}
+.cal .day.has:hover{border-color:var(--red)}
+.cal .day .dot{position:absolute;bottom:5px;width:26px;height:3px;border-radius:3px;background:var(--red)}
+.cal .day .n{position:absolute;top:4px;right:6px;font-size:9.5px;color:var(--mut)}
+.cal .day.today{outline:2px solid var(--navy)}
+.cal .day.dim{opacity:.35} .cal .day.empty{border:0;background:none}
+
+.pill{display:inline-block;font-size:11px;font-weight:600;padding:2px 9px;border-radius:99px;background:#EEF0FA;color:var(--navy);margin:2px 3px 2px 0}
+.pill.red{background:#FBEAEA;color:var(--red)} .pill.ok{background:#E9F5EC;color:#1c7c3d} .pill.gray{background:#EFEDE6;color:var(--mut)}
+
+/* ---------- live ---------- */
+.live .lrow{display:flex;gap:10px;align-items:center;padding:9px 4px;border-bottom:1px solid #EEE9DE;font-size:12.5px}
+.lrow .beat{width:8px;height:8px;border-radius:50%;background:#2ECC71;flex:none;box-shadow:0 0 0 0 rgba(46,204,113,.5);animation:pb 1.6s infinite}
+@keyframes pb{50%{box-shadow:0 0 0 6px rgba(46,204,113,0)}}
+.exp{display:flex;gap:8px;flex-wrap:wrap}
+.exp a{font-size:12px;font-weight:600;border:1px solid var(--line);padding:7px 13px;border-radius:99px;background:#fff;color:var(--ink);transition:border-color .25s,color .25s}
+.exp a:hover{border-color:var(--red);color:var(--red)}
+
+/* ---------- modal ---------- */
+#modal{position:fixed;inset:0;background:rgba(23,27,44,.45);display:none;place-items:center;z-index:200;padding:18px}
+#modal.on{display:grid}
+#modal .box{background:#fff;border-radius:16px;max-width:860px;width:100%;max-height:86vh;overflow:auto;padding:22px 24px}
+#modal h2{font-size:20px;margin-bottom:2px} #modal .x{float:right;border:0;background:none;font-size:20px;color:var(--mut);cursor:pointer}
+.stamp{font-size:11px;color:var(--mut)}
+
+/* ---------- mobile responsive ---------- */
+@media(max-width:860px){
+  .sidebar{transform:translateX(-100%)}
+  .sidebar.open{transform:translateX(0)}
+  .sidebar-toggle{display:flex}
+  .content{margin-left:0}
+  .topbar{padding-left:60px}
+  .sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:99}
+  .sidebar.open~.sidebar-overlay{display:block}
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════ LOGIN ═══════════════ -->
+<div id="login"><form class="box" onsubmit="return doLogin(event)">
+  <img src="/assets/logo.png" alt="BSC">
+  <h1>Admin Dashboard</h1>
+  <p>BSC visitor analytics — authorised staff only.</p>
+  <input id="un" type="text" placeholder="Username" autocomplete="username" value="admin">
+  <input id="pw" type="password" placeholder="Admin password" autocomplete="current-password" required>
+  <button type="submit">Sign in</button>
+  <button type="button" onclick="autoFill()" style="background:#fff;color:var(--ink);border:1px solid var(--line);font-weight:600">Auto-fill credentials</button>
+  <div class="err" id="loginErr"></div>
+</form></div>
+
+<!-- ═══════════════ APP LAYOUT ═══════════════ -->
+<div class="layout" id="app">
+
+  <!-- mobile hamburger -->
+  <button class="sidebar-toggle" id="sidebarToggle" onclick="toggleSidebar()">☰</button>
+  <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+
+  <!-- LEFT SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-head">
+      <img src="/assets/logo.png" alt="BSC">
+      <p>Analytics Dashboard</p>
+    </div>
+    <nav class="sidebar-nav">
+      <a href="#s-overview" class="on" data-nav="overview">
+        <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+        Overview
+      </a>
+      <a href="#s-traffic" data-nav="traffic">
+        <svg viewBox="0 0 24 24"><path d="M3 20h18M5 20V10l4-3 4 3 4-5 4 4v11"/></svg>
+        Traffic &amp; Calendar
+      </a>
+      <a href="#s-sections" data-nav="sections">
+        <svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h10"/></svg>
+        Sections &amp; Clicks
+      </a>
+      <a href="#s-people" data-nav="people">
+        <svg viewBox="0 0 24 24"><circle cx="9" cy="7" r="4"/><path d="M2 21v-2a4 4 0 0 1 4-4h6a4 4 0 0 1 4 4v2"/><circle cx="19" cy="11" r="2.5"/><path d="M19 14.5a3 3 0 0 1 0 5.5"/></svg>
+        Devices &amp; Locations
+      </a>
+      <div class="sep"></div>
+      <a href="#s-emails" data-nav="emails">
+        <svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 4L12 13 2 4"/></svg>
+        Emails
+      </a>
+      <a href="#s-live" data-nav="live">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3" fill="currentColor" stroke="none"/><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+        Live Now
+      </a>
+      <a href="#s-exports" data-nav="exports" id="navExports">
+        <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Exports
+      </a>
+    </nav>
+    <div class="sidebar-foot">
+      <div class="role-pill" id="rolePill"></div>
+      <button class="signout" onclick="logout()">Sign out</button>
+    </div>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <div class="content">
+    <header class="topbar">
+      <div class="topbar-title">Dashboard</div>
+      <div class="range">
+        <label>From <input type="date" id="from"></label>
+        <label>To <input type="date" id="to"></label>
+        <select id="preset">
+          <option value="7">Last 7 days</option><option value="30" selected>Last 30 days</option>
+          <option value="90">Last 90 days</option><option value="0">This month</option><option value="3650">All time</option>
+        </select>
+        <button onclick="loadAll()">Apply</button>
+      </div>
+    </header>
+
+    <div class="main-inner">
+
+      <section id="s-overview">
+        <h2 class="sect-title">Overview</h2>
+        <p class="sect-sub">Key metrics at a glance.</p>
+        <div class="grid kpis" id="kpis"></div>
+      </section>
+
+      <section id="s-traffic">
+        <h2 class="sect-title">Traffic &amp; Calendar</h2>
+        <p class="sect-sub">Daily visitors and clicks — tap any calendar day for the full drill-down.</p>
+        <div class="grid row2">
+          <div class="card rv"><h3>Visitors &amp; clicks per day <span class="stamp" id="chartRange"></span></h3>
+            <div class="bars" id="chart"></div><div class="xlab" id="chartX"></div>
+          </div>
+          <div class="card rv"><div class="cal-head"><h3 style="margin:0">Calendar — tap a day</h3>
+            <span><button id="prevM">‹</button> <button id="nextM">›</button></span></div>
+            <b id="calTitle" style="font-family:var(--serif)"></b>
+            <div class="cal" id="cal" style="margin-top:8px"></div>
+            <div class="stamp" style="margin-top:8px">Bar height = visitors · <span style="color:var(--red)">■</span> red = clicks</div>
+          </div>
+        </div>
+      </section>
+
+      <section id="s-sections">
+        <h2 class="sect-title">Sections &amp; Clicks</h2>
+        <p class="sect-sub">Which parts of the site families actually look at, and for how long.</p>
+        <div class="card rv"><h3>Top sections by views</h3><table id="topSect"></table></div>
+        <div class="card rv" style="margin-top:14px"><h3>Every section — views, dwell, clicks, unique people</h3><div style="overflow:auto"><table id="sectFull"></table></div></div>
+        <div class="card rv" style="margin-top:14px"><h3>Most-clicked elements</h3><div style="overflow:auto"><table id="clicks"></table></div></div>
+      </section>
+
+      <section id="s-people">
+        <h2 class="sect-title">Devices &amp; Locations</h2>
+        <p class="sect-sub">What people browse with, and where they are (district/state after opt-in).</p>
+        <div class="grid row2e">
+          <div class="card rv"><h3>Devices &amp; Screens</h3><div id="devs"></div></div>
+          <div class="card rv"><h3>Browsers &amp; OS</h3><div id="brw"></div></div>
+        </div>
+        <div class="grid row2e" style="margin-top:14px">
+          <div class="card rv"><h3>States (location consented visits)</h3><table id="states"></table></div>
+          <div class="card rv"><h3>Districts / Cities</h3><table id="districts"></table></div>
+        </div>
+      </section>
+
+      <section id="s-emails">
+        <h2 class="sect-title">Emails</h2>
+        <p class="sect-sub">Collected post-consent — <span id="emN">0</span> addresses.</p>
+        <div class="card rv"><div style="overflow:auto"><table id="emTable"></table></div>
+          <p class="stamp">Only visitors who completed the consent gate appear here.</p></div>
+      </section>
+
+      <section id="s-live">
+        <h2 class="sect-title">Live Now</h2>
+        <p class="sect-sub">Sessions active in the last 30 minutes — auto-refreshes every 10s.
+          <button onclick="loadLive()" style="border:1px solid var(--line);background:#fff;border-radius:8px;padding:3px 10px;font-size:12px">Refresh</button></p>
+        <div class="card rv"><div class="live" id="live"></div>
+          <p class="stamp">Open the site in another tab to watch a session appear here in real time.</p></div>
+      </section>
+
+      <section id="s-exports">
+        <h2 class="sect-title">Exports</h2>
+        <p class="sect-sub">Download raw data as CSV files.</p>
+        <div class="card rv" id="expCard"><h3>CSV Exports <span class="stamp">owner role only</span></h3><div class="exp">
+          <a href="/api/admin/export/sessions">Sessions</a><a href="/api/admin/export/events">All Events</a>
+          <a href="/api/admin/export/emails">Emails</a><a href="/api/admin/export/consent">Consent Log</a>
+          <p class="stamp" style="flex-basis:100%;margin-top:10px">Raw data lives in <code>database/data/bsc-analytics.db</code> (SQLite, WAL).</p></div>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</div>
+
+<!-- day drill-down modal -->
+<div id="modal"><div class="box"><button class="x" onclick="closeDay()">✕</button><div id="dayBody"></div></div></div>
+
+<script>
+"use strict";
+const $=(s)=>document.querySelector(s), $$=(s)=>document.querySelectorAll(s);
+const day=(n)=>new Date(Date.now()-n*864e5).toISOString().slice(0,10);
+let daily=[], liveTimer=null, calMonth=new Date();
+
+async function j(url){const r=await fetch(url);if(r.status===401)throw{auth:1};return r.json()}
+function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
+
+/* ---------- sidebar toggle (mobile) ---------- */
+function toggleSidebar(){$('#sidebar').classList.toggle('open')}
+$$('.sidebar-nav a').forEach(a=>a.addEventListener('click',()=>{
+  $$('.sidebar-nav a').forEach(x=>x.classList.remove('on'));a.classList.add('on');
+  if(innerWidth<=860)toggleSidebar();
+}));
+
+/* ---------- sidebar scrollspy ---------- */
+function setupSidebarSpy(){
+  const links=[...$$('.sidebar-nav a[href^="#"]')];
+  const io=new IntersectionObserver(es=>{
+    for(const e of es)if(e.isIntersecting){
+      links.forEach(a=>a.classList.toggle('on',a.getAttribute('href')==='#'+e.target.id));
+    }
+  },{rootMargin:'-10% 0px -70% 0px'});
+  $$('.main-inner section[id]').forEach(s=>io.observe(s));
+}
+
+/* ---------- auth ---------- */
+let lockoutTimer = null;
+async function boot(){try{const me=await j('/api/admin/me');if(me&&me.ok)enter(me);else showLogin()}catch(e){showLogin()}}
+function showLogin(){$('#login').style.display='grid';$('.layout').classList.remove('show');checkLockout()}
+function enter(me){
+  $('#login').style.display='none';$('.layout').classList.add('show');setDefaultRange();
+  const rp=$('#rolePill');
+  if(me&&me.role==='admin'){
+    rp.textContent='view-only';rp.className='role-pill viewer';
+    const ex=$('#expCard');if(ex)ex.style.display='none';
+    const ne=$('#navExports');if(ne)ne.style.display='none';
+  }else{
+    rp.textContent='owner';rp.className='role-pill owner';
+  }
+  loadAll().then(()=>{renderCal(calMonth);loadLive()});
+  startLive();setupReveals();setupSidebarSpy();
+}
+function autoFill(){$('#un').value='admin';$('#pw').value='bsc@Family2026'}
+function checkLockout(){
+  try{
+    const lock=JSON.parse(sessionStorage.getItem('bsc_lockout')||'0');
+    if(lock>Date.now())startLockoutTimer(Math.ceil((lock-Date.now())/60000));
+  }catch{}
+}
+function startLockoutTimer(mins){
+  const btn=$('#login button[type="submit"]');
+  const err=$('#loginErr');
+  let remaining=mins*60;
+  btn.disabled=true;btn.textContent=`Locked — wait ${mins}m`;
+  if(lockoutTimer)clearInterval(lockoutTimer);
+  lockoutTimer=setInterval(()=>{
+    remaining--;
+    if(remaining<=0){clearInterval(lockoutTimer);btn.disabled=false;btn.textContent='Sign in';err.textContent='';return}
+    const m=Math.floor(remaining/60),s=remaining%60;
+    btn.textContent=`Locked — ${m}:${String(s).padStart(2,'0')}`;
+  },1000);
+}
+async function doLogin(ev){ev.preventDefault();
+  const r=await fetch('/api/admin/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username:$('#un').value,password:$('#pw').value})});
+  const d=await r.json().catch(()=>({}));
+  if(r.ok){if(lockoutTimer)clearInterval(lockoutTimer);sessionStorage.removeItem('bsc_lockout');enter({ok:true,role:d.role||'super'})}
+  else{
+    $('#loginErr').textContent=d.err||'Login failed';
+    if(d.lockoutMinutes){
+      const lockUntil=Date.now()+d.lockoutMinutes*60000;
+      sessionStorage.setItem('bsc_lockout',String(lockUntil));
+      startLockoutTimer(d.lockoutMinutes);
+    }else if(d.attemptsRemaining!==undefined&&d.attemptsRemaining<=0){
+      /* shouldn't happen but handle edge case */
+    }
+  }
+  return false}
+async function logout(){await fetch('/api/admin/logout',{method:'POST'});location.reload()}
+
+/* ---------- reveals ---------- */
+function setupReveals(){const io=new IntersectionObserver(es=>{for(const e of es)if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}},{threshold:.08});$$('.rv').forEach(el=>io.observe(el))}
+
+/* ---------- range ---------- */
+function setDefaultRange(){const p=$('#preset').value;
+  if(p==='0'){$('#from').value=day(0).slice(0,8)+'01';$('#to').value=day(0)}
+  else{$('#from').value=day(+p-1);$('#to').value=day(0)}}
+$('#preset').addEventListener('change',()=>{setDefaultRange();loadAll()});
+function qs(){return `from=${$('#from').value}&to=${$('#to').value}`}
+
+/* ---------- load all ---------- */
+async function loadAll(){
+  try{
+    const [sum,d,s,c,dev]=await Promise.all([j(`/api/admin/summary?${qs()}`),j(`/api/admin/daily?${qs()}`),j(`/api/admin/sections?${qs()}`),j(`/api/admin/clicks?${qs()}`),j(`/api/admin/devices?${qs()}`)]);
+    renderKpis(sum);renderChart(d);daily=d;renderCal(calMonth);renderSections(s);renderClicks(s,c);renderDev(dev);
+    loadLocations();loadEmails();
+  }catch(e){if(e.auth)showLogin();else console.error(e)}
+}
+
+/* ---------- KPIs ---------- */
+function kpiNum(v){const n=parseFloat(v);return Number.isFinite(n)?n:null}
+function renderKpis(s){
+  const k=(l,v,i,cls='')=>`<div class="card kpi rv ${cls}"><b data-n="${kpiNum(String(v).replace(/[^0-9.]/g,''))??''}" data-raw="${esc(String(v))}">${esc(String(v))}</b><i>${l}</i>${i?`<br><i>${i}</i>`:''}</div>`;
+  $('#kpis').innerHTML=
+    k('Visitors',s.visitorsToday+' today','total '+s.visitors+' in range','red')+
+    k('Currently Live',s.views30min,'in last 30 min','red')+
+    k('Pageviews',s.visits,'section views dwell-tracked')+
+    k('Clicks',s.clicks,'buttons, cards, links','')+
+    k('Avg Visit',fmtDur(s.avgSeconds),'per consented session')+
+    k('Emails',s.emails+' in range','total '+s.emailsTotal+' collected')+
+    k('Located Visits',s.located,'district/state after opt-in','')+
+    k('Events Stored',s.eventsTotal.toLocaleString('en-IN'),'rows in SQLite','');
+  const io=new IntersectionObserver(es=>{for(const e of es){if(!e.isIntersecting)continue;io.unobserve(e.target);
+    const el=e.target,n=parseFloat(el.dataset.n),raw=el.dataset.raw;
+    if(!Number.isFinite(n)||n<=0){el.textContent=raw;continue}
+    const t0=performance.now(),D=1100;
+    (function tick(t){const p=Math.min(1,(t-t0)/D);const eased=1-Math.pow(1-p,3)+Math.sin(p*Math.PI*3)*.012*(1-p);
+      el.textContent=Math.round(n*Math.min(1,eased)).toLocaleString('en-IN');
+      if(p<1)requestAnimationFrame(tick);else el.textContent=raw})(t0)}},{threshold:.5});
+  $$('#kpis b[data-n]').forEach(b=>io.observe(b));
+}
+const fmtDur=sec=>{sec=Math.max(0,Math.round(sec||0));if(sec<60)return sec+'s';const m=Math.floor(sec/60),s2=sec%60;return m<60?`${m}m ${s2}s`:`${Math.floor(m/60)}h ${m%60}m`};
+
+/* ---------- chart ---------- */
+function renderChart(d){
+  const max=Math.max(4,...d.map(r=>r.visitors));
+  $('#chart').innerHTML=d.map(r=>`<div class="b" title="${r.date}: ${r.visitors} visitors · ${r.clicks} clicks · ${r.emails} emails" style="height:${r.visitors/max*100}%" onclick="openDay('${r.date}')"><i>${r.visitors||''}</i><em style="position:absolute;bottom:0;left:20%;right:20%;height:${r.clicks/max*100}%;background:var(--navy);opacity:.7;border-radius:2px" title="clicks"></em></div>`).join('');
+  const a=d[0]?.date||'',b=d[d.length-1]?.date||'';
+  $('#chartX').innerHTML=`<span>${a}</span><span>red = visitors · navy = clicks</span><span>${b}</span>`;
+  $('#chartRange').textContent=`(${d.length} days)`;
+}
+
+/* ---------- calendar ---------- */
+let now0=new Date();calMonth=new Date(now0.getFullYear(),now0.getMonth(),1);
+$('#prevM').onclick=()=>{calMonth=new Date(calMonth.getFullYear(),calMonth.getMonth()-1,1);renderCal(calMonth)};
+$('#nextM').onclick=()=>{calMonth=new Date(calMonth.getFullYear(),calMonth.getMonth()+1,1);renderCal(calMonth)};
+function renderCal(m){
+  const y=m.getFullYear(),mo=m.getMonth();
+  $('#calTitle').textContent=m.toLocaleString('en-IN',{month:'long',year:'numeric'});
+  const first=new Date(y,mo,1),start=(first.getDay()+6)%7,dim=new Date(y,mo+1,0).getDate();
+  const max=Math.max(3,...daily.map(r=>r.visitors));
+  const by=Object.fromEntries(daily.map(r=>[r.date,r]));
+  const todayS=day(0);
+  let html=['Mo','Tu','We','Th','Fr','Sa','Su'].map(d=>`<div class="dow">${d}</div>`).join('');
+  for(let i=0;i<start;i++)html+='<div class="day empty"></div>';
+  for(let dd=1;dd<=dim;dd++){
+    const key=`${y}-${String(mo+1).padStart(2,'0')}-${String(dd).padStart(2,'0')}`;
+    const r=by[key];const inRange=key>=$('#from').value&&key<=$('#to').value;
+    const visit=r?Math.max(3,r.visitors/max*100):0,click=r&&r.clicks?Math.max(3,Math.min(100,r.clicks/max*100)):0;
+    html+=`<div class="day ${r&&r.visitors?'has':''} ${key===todayS?'today':''} ${(!inRange&&r)?'dim':''}" ${r?`onclick="openDay('${key}')" title="${r.visitors} visitors · ${r.visits} views · ${r.clicks} clicks · ${r.emails} emails"`:''}>
+      ${dd}<span class="n">${r&&r.visitors?r.visitors:''}</span>${visit?`<span class="dot" style="width:${visit*0.6}%;height:3px;left:20%"></span>`:''}${click?`<span class="dot" style="background:var(--navy);height:3px;width:${click*0.6}%;left:20%;bottom:1px"></span>`:''}</div>`;
+  }
+  $('#cal').innerHTML=html;
+}
+
+/* ---------- day drill-down ---------- */
+async function openDay(date){
+  const d=await j('/api/admin/day?date='+date);
+  const rows=d.sessions.map(s=>`<tr><td>${s.joined.slice(11)}</td><td><b>${s.sid.slice(0,8)}</b></td><td>${s.device}</td><td>${esc(s.os)} · ${esc(s.browser)}</td><td>${s.seconds}s · ${s.pages}p</td><td>${esc(s.city||s.state||'—')}</td><td>${s.email?esc(s.email):'<span class="pill gray">none</span>'}</td></tr>`).join('')||'<tr><td colspan="7">No consented visits recorded.</td></tr>';
+  const hrs=new Array(24).fill(0);d.hourly.forEach(h=>hrs[h.h]=h.c);const mx=Math.max(1,...hrs);
+  const hh=`<div class="bars" style="height:70px">${hrs.map((c,i)=>`<div class="b" title="${i}:00 — ${c} events" style="height:${c/mx*100}%"></div>`).join('')}</div>
+    <div class="xlab"><span>12 AM</span><span>12 PM</span><span>12 AM</span></div>`;
+  const evs=d.events.slice(0,160).map(e=>`<tr><td>${e.at}</td><td>${e.type}</td><td>${esc(e.section)}</td><td>${esc(e.element)}</td><td>${e.type==='section_view'?e.value+'s':e.value}</td></tr>`).join('');
+  $('#dayBody').innerHTML=`<h2>${d.date} — ${d.sessionsCount} visitor${d.sessionsCount===1?'':'s'}</h2>
+    <p class="stamp">Hourly activity</p>${hh}
+    <h3 style="margin:14px 0 6px">Sessions</h3><div style="overflow:auto"><table><tr><th>Time</th><th>Session</th><th>Device</th><th>OS / Browser</th><th>Duration</th><th>District/State</th><th>Email</th></tr>${rows}</table></div>
+    <h3 style="margin:14px 0 6px">Event stream <span class="stamp">(latest 160)</span></h3><div style="overflow:auto"><table><tr><th>At</th><th>Type</th><th>Section</th><th>Element</th><th>Value</th></tr>${evs||'<tr><td colspan="5">No events.</td></tr>'}</table></div>`;
+  $('#modal').classList.add('on');
+}
+function closeDay(){$('#modal').classList.remove('on')}
+$('#modal').addEventListener('click',e=>{if(e.target.id==='modal')closeDay()});
+
+/* ---------- tables ---------- */
+function renderSections(s){
+  const max=Math.max(1,...s.map(r=>r.views));
+  $('#topSect').innerHTML='<tr><th>Section</th><th>Views</th><th>Dwell</th><th></th></tr>'+(s.slice(0,10).map(r=>
+    `<tr><td><b>${esc(r.section)}</b></td><td>${r.views}</td><td>${fmtDur(r.seconds/Math.max(1,r.people))} avg</td><td style="width:45%"><div class="bar" style="width:${r.views/max*100}%"></div></td></tr>`).join('')||'<tr><td colspan="4">No data yet.</td></tr>');
+  $('#sectFull').innerHTML='<tr><th>Section</th><th>Views</th><th>Unique People</th><th>Total Dwell</th><th>Avg/Person</th><th>Clicks</th><th>Share</th></tr>'+(s.map(r=>
+    `<tr><td><b>${esc(r.section)}</b></td><td>${r.views}</td><td>${r.people}</td><td>${fmtDur(r.seconds)}</td><td>${fmtDur(r.seconds/Math.max(1,r.people))}</td><td>${r.clicks}</td><td style="width:22%"><div class="bar" style="width:${r.views/max*100}%"></div></td></tr>`).join('')||'<tr><td colspan="7">No data yet.</td></tr>');
+}
+function renderClicks(s,c){
+  const total=s.reduce((a,r)=>a+r.clicks,0);
+  $('#clicks').innerHTML='<tr><th>Section</th><th>Element Clicked</th><th>Clicks</th><th>% of Total</th></tr>'+(c.map(r=>
+    `<tr><td>${esc(r.section)}</td><td><b>${esc(r.element)}</b></td><td>${r.clicks}</td><td>${total?Math.round(r.clicks/total*100):0}%</td></tr>`).join('')||'<tr><td colspan="4">No clicks recorded yet.</td></tr>');
+}
+function chips(rows,cls){const max=Math.max(1,...rows.map(r=>r.c));return rows.map(r=>`<div style="display:flex;align-items:center;gap:10px;margin:7px 0"><span style="min-width:150px;font-weight:600">${esc(r.k)}</span><div class="bar ${cls}" style="width:${Math.max(2,r.c/max*46)}%"></div><span class="stamp">${r.c}</span></div>`).join('')||'<p class="stamp">No data.</p>'}
+function renderDev(d){$('#devs').innerHTML=chips(d.device,'')+chips(d.screen,'n');
+  $('#brw').innerHTML=`<h3 style="font:700 11px var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--mut)">Browsers</h3>${chips(d.browser,'n')}
+  <h3 style="font:700 11px var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--mut);margin-top:12px">Operating Systems</h3>${chips(d.os,'')}`}
+async function loadLocations(){const l=await j(`/api/admin/locations?${qs()}`);
+  $('#states').innerHTML='<tr><th>State</th><th>Visits</th></tr>'+(l.state.map(r=>`<tr><td><b>${esc(r.k)}</b></td><td>${r.c}</td></tr>`).join('')||'<tr><td colspan="2">No located visits.</td></tr>');
+  $('#districts').innerHTML='<tr><th>District / City</th><th>State</th><th>Visits</th></tr>'+(l.district.map(r=>`<tr><td><b>${esc(r.k)}</b></td><td>${esc(r.state||'—')}</td><td>${r.c}</td></tr>`).join('')||'<tr><td colspan="3">No located visits.</td></tr>')}
+async function loadEmails(){const e=await j('/api/admin/emails');$('#emN').textContent=e.length;
+  $('#emTable').innerHTML='<tr><th>Email</th><th>Source</th><th>Joined (UTC)</th><th>Near</th></tr>'+(e.map(r=>
+  `<tr><td><b>${esc(r.email)}</b></td><td>${r.source==='browser'?'<span class="pill">browser</span>':'<span class="pill gray">typed</span>'}</td><td>${r.joined}</td><td>${esc(r.city||'')}</td></tr>`).join('')||'<tr><td colspan="4">No emails yet.</td></tr>')}
+async function loadLive(){try{const r=await j('/api/admin/live');
+  $('#live').innerHTML=r.length?r.map(s=>`<div class="lrow"><span class="beat"></span><b>${s.sid.slice(0,8)}</b>
+   <span>${esc(s.device||'?')} · ${esc(s.browser||'')} ${esc(s.os||'')}</span>
+   <span class="pill">${s.pages} page(s)</span>${s.city?`<span class="pill">📍 ${esc(s.city)}</span>`:''}${s.email?`<span class="pill red">✉ ${esc(s.email)}</span>`:''}
+   <span style="flex:1"></span><span class="stamp">${s.last_event?esc(s.last_event):'—'} · ${Math.round(s.ago)}s ago</span></div>`).join(''):'<p class="stamp" style="padding:14px 0">No live sessions — open the site in another tab and accept the consent prompt.</p>';}catch(e){}}
+function startLive(){clearInterval(liveTimer);liveTimer=setInterval(loadLive,10000)}
+boot();
+</script>
+</body>
+</html>

@@ -1,0 +1,109 @@
+/* ═══════════════════════════════════════════════════════════
+   BSC MOTION ENHANCE — CSS
+   Cursor glow · Smooth transitions · 3D depth
+   ═══════════════════════════════════════════════════════════ */
+
+/* ── Cursor Glow ── */
+.bsc-cursor-glow {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(202,33,37,0.06) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 1;
+  will-change: transform;
+  mix-blend-mode: screen;
+}
+
+/* ── Smooth scroll-linked opacity ── */
+.cc-item__img img,
+.c-photo,
+.stats-art img {
+  will-change: transform;
+  transition: none;
+}
+
+/* ── Card hover depth ── */
+.c-card,
+.h-card,
+.b-tile,
+.st-card,
+.sv,
+.ld-card,
+.hl {
+  transition: transform 0.5s cubic-bezier(.16,1.02,.28,1), box-shadow 0.5s;
+  transform-style: preserve-3d;
+}
+
+.c-card:hover,
+.h-card:hover,
+.b-tile:hover,
+.st-card:hover,
+.sv:hover,
+.hl:hover {
+  box-shadow: 0 30px 60px -24px rgba(23,27,44,0.3);
+}
+
+/* ── Stats art clip reveal ── */
+.stats-art {
+  clip-path: inset(0 100% 0 0 round 18px);
+  transition: clip-path 1.3s cubic-bezier(.22,.9,.12,1);
+}
+[data-section].seen .stats-art {
+  clip-path: inset(0 0 0 0 round 18px);
+}
+
+/* ── Prop blockquote ── */
+.prop blockquote {
+  opacity: 0;
+  transform: perspective(900px) translateY(26px) rotateX(-8deg);
+  transition: all 0.9s cubic-bezier(.22,.9,.12,1);
+}
+.prop.seen blockquote {
+  opacity: 1;
+  transform: none;
+}
+
+/* ── Visit CTA ── */
+.visit-inner {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.8s ease, transform 0.9s cubic-bezier(.22,.9,.12,1);
+}
+[data-section].seen .visit-inner {
+  opacity: 1;
+  transform: none;
+}
+
+/* ── Scroll progress bar ── */
+.scroll-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  z-index: 80;
+  pointer-events: none;
+  transform-origin: 0 50%;
+  transform: scaleX(0);
+  background: linear-gradient(90deg, var(--red-deep), var(--red) 55%, var(--gold));
+}
+
+/* ── Heritage rail ── */
+@media (min-width: 1100px) {
+  .heritage { --pin: 1; }
+}
+
+/* ── Reduced motion overrides ── */
+@media (prefers-reduced-motion: reduce) {
+  .bsc-cursor-glow { display: none; }
+  .scroll-bar { display: none; }
+  .stats-art { clip-path: none; }
+  .stats-art img { transform: none; }
+  .prop blockquote { opacity: 1; transform: none; }
+  .visit-inner { opacity: 1; transform: none; }
+  .hero h1 .line > span { transform: none; }
+}

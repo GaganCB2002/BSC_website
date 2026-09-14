@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1067" width="800" height="1067">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#FFF8F0"/>
+      <stop offset="100%" stop-color="#FFE8D0"/>
+    </linearGradient>
+    <linearGradient id="fabric" x1="0" y1="0" x2="0.3" y2="1">
+      <stop offset="0%" stop-color="#E8B4B8"/>
+      <stop offset="40%" stop-color="#D4A0A6"/>
+      <stop offset="100%" stop-color="#C08C92"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#D4AF37"/>
+      <stop offset="50%" stop-color="#F5D060"/>
+      <stop offset="100%" stop-color="#D4AF37"/>
+    </linearGradient>
+    <filter id="shadow"><feDropShadow dx="0" dy="18" stdDeviation="28" flood-color="#000" flood-opacity="0.12"/></filter>
+    <radialGradient id="glow" cx="50%" cy="40%" r="50%">
+      <stop offset="0%" stop-color="#fff" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#fff" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="800" height="1067" fill="url(#bg)"/>
+  <ellipse cx="400" cy="400" rx="400" ry="350" fill="url(#glow)"/>
+
+  <!-- Children's outfit - lehenga set -->
+  <g filter="url(#shadow)">
+    <!-- Lehenga skirt -->
+    <path d="M280,500 Q320,480 400,475 Q480,480 520,500 L540,850 Q500,880 400,890 Q300,880 260,850 Z" fill="url(#fabric)"/>
+    <!-- Border -->
+    <path d="M260,850 Q300,880 400,890 Q500,880 540,850" stroke="url(#gold)" stroke-width="10" fill="none"/>
+    <!-- Pattern -->
+    <path d="M300,550 Q400,540 500,550" stroke="#D4AF37" stroke-width="2" fill="none" opacity="0.4"/>
+    <path d="M290,600 Q400,590 510,600" stroke="#D4AF37" stroke-width="2" fill="none" opacity="0.35"/>
+    <path d="M280,650 Q400,640 520,650" stroke="#D4AF37" stroke-width="2" fill="none" opacity="0.3"/>
+    <path d="M270,700 Q400,690 530,700" stroke="#D4AF37" stroke-width="2" fill="none" opacity="0.25"/>
+
+    <!-- Blouse -->
+    <path d="M330,350 Q400,330 470,350 L480,500 Q440,520 400,525 Q360,520 320,500 Z" fill="#C08C92"/>
+    <path d="M340,380 Q400,365 460,380" stroke="#D4AF37" stroke-width="1.5" fill="none" opacity="0.5"/>
+
+    <!-- Dupatta -->
+    <path d="M300,340 Q250,350 220,400 Q200,450 230,500 Q260,540 300,560" stroke="url(#fabric)" stroke-width="40" fill="none" opacity="0.6" stroke-linecap="round"/>
+  </g>
+
+  <!-- Hair accessory -->
+  <g transform="translate(400,280)">
+    <circle cx="0" cy="0" r="25" fill="#D4AF37"/>
+    <circle cx="0" cy="0" r="18" fill="#E8B4B8"/>
+    <circle cx="0" cy="0" r="8" fill="#F5D060"/>
+    <!-- Petals -->
+    <circle cx="-15" cy="-15" r="6" fill="#D4AF37" opacity="0.7"/>
+    <circle cx="15" cy="-15" r="6" fill="#D4AF37" opacity="0.7"/>
+    <circle cx="-20" cy="5" r="5" fill="#D4AF37" opacity="0.6"/>
+    <circle cx="20" cy="5" r="5" fill="#D4AF37" opacity="0.6"/>
+  </g>
+
+  <!-- Bangles -->
+  <g transform="translate(250,460)">
+    <ellipse cx="0" cy="0" rx="22" ry="18" fill="none" stroke="#D4AF37" stroke-width="4"/>
+    <ellipse cx="0" cy="0" rx="18" ry="14" fill="none" stroke="#E8B4B8" stroke-width="3"/>
+  </g>
+
+  <!-- Small shoes -->
+  <g transform="translate(340,880)">
+    <path d="M-20,0 Q-25,-8 -15,-12 L20,-12 Q30,-8 25,0 Z" fill="#C08C92"/>
+    <path d="M30,0 Q35,-8 45,-12 L80,-12 Q90,-8 85,0 Z" fill="#C08C92"/>
+  </g>
+
+  <text x="400" y="1020" text-anchor="middle" font-family="Georgia, serif" font-size="14" fill="#C08C92" opacity="0.3" letter-spacing="8">FESTIVE KIDS</text>
+</svg>

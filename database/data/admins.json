@@ -1,0 +1,10 @@
+{
+  "admins": [
+    {
+      "user": "viewer",
+      "role": "admin",
+      "salt": "76160f8a9faeb86a0086ea16022bbf09",
+      "hash": "1da5cadd2394cf991b8dc17692e95094e4cc74657efd5ec1ffecad928b968f35b28c8c77b5366daed89f2b009dcc93090e9c3b83b8fdcbfc369722eb8f6e3b57"
+    }
+  ]
+}

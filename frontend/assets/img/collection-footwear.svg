@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" fill="none">
+  <!-- Footwear — ethnic sandal and formal shoe -->
+  <g stroke="#CA2125" stroke-width="3.2" stroke-linecap="round">
+    <path d="M56 196c8-30 44-38 76-30 20 5 30 14 30 26 0 10-10 16-26 16H70c-10 0-16-4-14-12Z" fill="#fff"/>
+    <path d="M70 172c16-20 44-22 62-10"/>
+    <path d="M92 194c14-16 34-18 48-8"/>
+  </g>
+  <circle cx="120" cy="164" r="8" stroke="#C77F2B" stroke-width="3"/>
+  <path d="M56 208h112" stroke="#203A85" stroke-width="2.4"/>
+  <g stroke="#203A85" stroke-width="3.2" stroke-linecap="round">
+    <path d="M232 206c0-26 10-42 34-42 22 0 40 8 62 8 8 0 12 6 10 14-4 14-16 20-36 20h-70Z" fill="#fff"/>
+    <path d="M300 164c6 16 4 30-4 42"/>
+  </g>
+  <path d="M232 218h116" stroke="#C77F2B" stroke-width="2.4"/>
+  <path d="M266 206c8-10 20-14 32-12" stroke="#203A85" stroke-width="2"/>
+</svg>

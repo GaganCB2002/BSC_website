@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" fill="none">
+  <!-- Imitation jewellery — necklace with pearl drops and temple pendant -->
+  <path d="M70 66c0 96 58 150 130 150s130-54 130-150" stroke="#C77F2B" stroke-width="4" stroke-linecap="round"/>
+  <g fill="#fff" stroke="#C77F2B" stroke-width="2.4">
+    <circle cx="92" cy="92" r="7"/><circle cx="106" cy="114" r="7"/><circle cx="124" cy="134" r="7"/>
+    <circle cx="146" cy="152" r="7"/><circle cx="172" cy="166" r="7"/><circle cx="200" cy="171" r="7"/>
+    <circle cx="228" cy="166" r="7"/><circle cx="254" cy="152" r="7"/><circle cx="276" cy="134" r="7"/>
+    <circle cx="294" cy="114" r="7"/><circle cx="308" cy="92" r="7"/>
+  </g>
+  <path d="M200 178l-30 34 30 44 30-44z" fill="#fff" stroke="#CA2125" stroke-width="3.4"/>
+  <circle cx="200" cy="212" r="9" stroke="#C77F2B" stroke-width="2.6"/>
+  <g stroke="#203A85" stroke-width="2.6">
+    <circle cx="140" cy="86" r="12"/><path d="M140 98v26" stroke="#C77F2B"/>
+    <circle cx="260" cy="86" r="12"/><path d="M260 98v26" stroke="#C77F2B"/>
+  </g>
+  <path d="M140 124c0 8 6 12 6 18M260 124c0 8-6 12-6 18" stroke="#203A85" stroke-width="2.2"/>
+</svg>

@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 520">
+  <defs>
+    <linearGradient id="bgv" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#33518f"/><stop offset="1" stop-color="#101733"/>
+    </linearGradient>
+    <radialGradient id="halo" cx=".5" cy=".32" r=".8">
+      <stop offset="0" stop-color="#ffffff" stop-opacity=".2"/><stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="400" height="520" fill="url(#bgv)"/>
+  <rect width="400" height="520" fill="url(#halo)"/>
+  <g fill="#FAF8F4" fill-opacity=".16">
+    <circle cx="200" cy="198" r="70"/>
+    <path d="M70 520c0-98 58-158 130-158s130 60 130 158Z"/>
+  </g>
+  <g stroke="#C77F2B" stroke-opacity=".75" stroke-width="4" fill="none" stroke-linecap="round">
+    <path d="M40 452c50 20 90-24 140-6s90 26 180-8"/>
+    <path d="M60 480c50 18 100-20 150-4s80 20 150-6"/>
+  </g>
+  <text x="200" y="46" text-anchor="middle" font-family="Georgia,serif" font-size="26" letter-spacing="8" fill="#F5C77F" fill-opacity=".9">VB</text>
+  <text x="200" y="500" text-anchor="middle" font-family="Georgia,serif" font-size="13" fill="#FAF8F4" fill-opacity=".55">Official portrait — coming soon</text>
+</svg>
