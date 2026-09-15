@@ -123,17 +123,6 @@ const BSC_COLLECTIONS = [
     accent: "#203A85",
     floaters: ["logo", "label", "tag"],
   },
-  {
-    id: "tailoring",
-    title: "Expert Tailoring",
-    kicker: "12 — MADE TO FIT",
-    description: "For men & women — fit-on-approval stitching",
-    image: "/assets/img/collection-tailoring2.svg",
-    direction: "right",
-    cta: "VIEW IN STORE →",
-    accent: "#CA2125",
-    floaters: ["scissors", "tape", "spool"],
-  },
 ];
 
 window.BSC_COLLECTIONS = BSC_COLLECTIONS;
