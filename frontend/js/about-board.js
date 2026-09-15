@@ -159,10 +159,10 @@
           <h3>Our Core Values</h3>
           <div class="abn-values__grid">
             ${[
-              { icon: "🤝", title: "Trust", desc: "88 years of keeping promises to every family that walks through our doors." },
-              { icon: "✨", title: "Quality", desc: "Every fabric, every stitch, every product — curated to the highest standards." },
-              { icon: "❤️", title: "Care", desc: "We treat every customer like family. Warmth is not a policy — it's who we are." },
-              { icon: "🌱", title: "Legacy", desc: "Five generations of learning, growing and passing on the right values." },
+              { icon: '<svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M18 3L22 11L31 12.5L24.5 19L26 28L18 23.5L10 28L11.5 19L5 12.5L14 11L18 3Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><circle cx="18" cy="18" r="5" stroke="currentColor" stroke-width="1.5" opacity="0.4"/></svg>', title: "Trust", desc: "88 years of keeping promises to every family that walks through our doors." },
+              { icon: '<svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M18 6C18 6 8 14 8 20C8 25.5 12.5 30 18 30C23.5 30 28 25.5 28 20C28 14 18 6 18 6Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M14 20L17 23L23 16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>', title: "Quality", desc: "Every fabric, every stitch, every product — curated to the highest standards." },
+              { icon: '<svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M18 30C18 30 6 22 6 14C6 10 9 7 12.5 7C14.5 7 16.5 8 18 10C19.5 8 21.5 7 23.5 7C27 7 30 10 30 14C30 22 18 30 18 30Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>', title: "Care", desc: "We treat every customer like family. Warmth is not a policy — it's who we are." },
+              { icon: '<svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M18 30V18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M18 18C18 18 10 20 8 14C6 8 12 4 18 10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M18 18C18 18 26 20 28 14C30 8 24 4 18 10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M14 30H22" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>', title: "Legacy", desc: "Five generations of learning, growing and passing on the right values." },
             ].map((v, i) => `
               <div class="abn-val-card" data-i="${i}">
                 <div class="abn-val-icon">${v.icon}</div>
@@ -336,18 +336,75 @@
     );
   });
 
-  /* Timeline items */
+  /* Timeline — staggered reveal with IntersectionObserver */
   const tlItems = document.querySelectorAll('.abn-tl-item');
-  tlItems.forEach((item, i) => {
-    G.fromTo(item,
-      { opacity: 0, x: i % 2 === 0 ? -40 : 40, scale: 0.95 },
-      {
-        opacity: 1, x: 0, scale: 1,
-        ease: 'power3.out',
-        scrollTrigger: { trigger: item, start: 'top 88%', toggleActions: 'play none none reverse' }
-      }
-    );
-  });
+  const tlTrack = document.querySelector('.abn-timeline__track');
+  if (tlItems.length) {
+    /* Animate the title */
+    const tlTitle = document.querySelector('.abn-timeline__title');
+    if (tlTitle) {
+      G.fromTo(tlTitle,
+        { opacity: 0, y: 40 },
+        { opacity: 1, y: 0, ease: 'power3.out', duration: 0.8,
+          scrollTrigger: { trigger: tlTitle, start: 'top 85%', toggleActions: 'play none none reverse' }
+        }
+      );
+    }
+
+    /* Animate the track line drawing */
+    if (tlTrack) {
+      G.fromTo(tlTrack.querySelector('::before') || tlTrack,
+        { '--line-progress': '0%' },
+        { '--line-progress': '100%', ease: 'none',
+          scrollTrigger: { trigger: tlTrack, start: 'top 80%', end: 'bottom 60%', scrub: 1 }
+        }
+      );
+    }
+
+    /* Staggered item reveal using IntersectionObserver */
+    const tlObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const item = entry.target;
+          const idx = parseInt(item.dataset.i) || 0;
+          const delay = idx * 120;
+          setTimeout(() => {
+            item.classList.add('seen');
+            /* Animate the dot */
+            const dot = item.querySelector('.abn-tl-dot');
+            if (dot) {
+              G.fromTo(dot,
+                { scale: 0, rotation: -180 },
+                { scale: 1, rotation: 0, duration: 0.6, ease: 'back.out(2)', delay: 0.15 }
+              );
+            }
+            /* Animate the content card */
+            const content = item.querySelector('.abn-tl-content');
+            if (content) {
+              G.fromTo(content,
+                { opacity: 0, y: 20, scale: 0.96 },
+                { opacity: 1, y: 0, scale: 1, duration: 0.6, ease: 'power3.out', delay: 0.25 }
+              );
+            }
+            /* Animate the year badge */
+            const year = item.querySelector('.abn-tl-year');
+            if (year) {
+              G.fromTo(year,
+                { opacity: 0, x: -20 },
+                { opacity: 1, x: 0, duration: 0.5, ease: 'power2.out', delay: 0.1 }
+              );
+            }
+          }, delay);
+          tlObserver.unobserve(item);
+        }
+      });
+    }, { threshold: 0.3, rootMargin: '-5% 0px -5% 0px' });
+
+    tlItems.forEach((item, i) => {
+      item.dataset.i = i;
+      tlObserver.observe(item);
+    });
+  }
 
   /* Numbers */
   const numVals = document.querySelectorAll('.abn-num__val');

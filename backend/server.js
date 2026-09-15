@@ -202,7 +202,7 @@ app.post('/api/events', (req, res) => {
         sid: id, ts, date: dayOf(ts),
         type: clampStr(e.type, 32) || 'event',
         section: clampStr(e.section, 80), element: clampStr(e.name, 120),
-        value: Math.max(0, Math.floor(Number(e.value) || 1)),
+        value: Math.max(0, Math.floor(Number(e.value ?? 1))),
         meta: e.meta ? JSON.stringify(e.meta).slice(0, 400) : null,
       });
       n++;
@@ -299,7 +299,6 @@ app.get('/api/admin/summary', requireAdmin, (req, res) => {
   const { from, to } = range(req);
   const g = (sql, ...p) => db.prepare(sql).get(...p);
   const today = dayOf(Date.now());
-  const S = `session_id IN (SELECT id FROM sessions WHERE consent=1)`;
   const inRange = `date BETWEEN ? AND ?`;
   res.json({
     from, to,
@@ -461,7 +460,7 @@ loadLockouts();
 /* periodic token cleanup — prune expired tokens every 30 minutes */
 setInterval(() => {
   const now = Date.now();
-  for (const [tok, exp] of TOKENS) { if (exp < now) TOKENS.delete(tok); }
+  for (const [tok, entry] of TOKENS) { if (entry.exp < now) TOKENS.delete(tok); }
 }, 30 * 60 * 1000);
 
 const server = http.createServer(app);

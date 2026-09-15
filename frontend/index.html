@@ -17,7 +17,7 @@
   <meta property="og:url" content="https://www.bscexclusive.com/">
   <meta property="og:title" content="BSC — The Complete Family Store · Davanagere · Since 1938">
   <meta property="og:description" content="88 years of trust — sarees, ethnic, men, women, kids, wedding and home furnishings under one roof. Stores in Davanagere, Belagavi & Shivamogga.">
-  <meta property="og:image" content="/assets/logo.png">
+  <meta property="og:image" content="https://www.bscexclusive.com/assets/logo.png">
   <meta property="og:site_name" content="BSC Exclusive">
   <meta property="og:locale" content="en_IN">
 
@@ -25,7 +25,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="BSC — The Complete Family Store · Davanagere · Since 1938">
   <meta name="twitter:description" content="88 years of trust — sarees, ethnic, men, women, kids, wedding and home furnishings under one roof.">
-  <meta name="twitter:image" content="/assets/logo.png">
+  <meta name="twitter:image" content="https://www.bscexclusive.com/assets/logo.png">
 
   <!-- Geo -->
   <meta name="geo.region" content="IN-KA">
@@ -38,6 +38,7 @@
   <link rel="stylesheet" href="/css/cinematic-collections.css">
   <link rel="stylesheet" href="/css/motion-enhance.css">
   <link rel="stylesheet" href="/css/about-board.css">
+  <noscript><style>[data-section] [style*="opacity:0"],[data-section] .aisle,[data-section] .id-copy,[data-section] .wed-art,[data-section] .sec-head,[data-section] .c-card,[data-section] .h-card,[data-section] .hl,[data-section] .b-tile,[data-section] .st-card,[data-section] .sv,[data-section] .ld-card,[data-section] .ab-body,[data-section] .ticks li{opacity:1!important;transform:none!important}.gate{display:none!important}</style></noscript>
   <script type="importmap">{"imports":{"three":"/vendor/three/three.module.js"}}</script>
 
   <!-- Structured Data (JSON-LD) -->
@@ -109,6 +110,26 @@
 
 <body>
 
+  <!-- ═══════════════ LOADING SCREEN ═══════════════ -->
+  <div id="loader" class="loader" aria-live="polite" aria-label="Loading">
+    <div class="loader-inner">
+      <div class="loader-logo">
+        <img src="/assets/logo-transparent.png" alt="BSC" class="loader-logo__img">
+      </div>
+      <div class="loader-ring">
+        <div class="loader-ring__circle"></div>
+      </div>
+      <div class="loader-text">
+        <span class="loader-text__brand">BSC</span>
+        <span class="loader-text__sub">The Complete Family Store</span>
+      </div>
+      <div class="loader-bar">
+        <div class="loader-bar__fill" id="loaderFill"></div>
+      </div>
+      <span class="loader-pct" id="loaderPct">0%</span>
+    </div>
+  </div>
+
   <!-- ═══════════════ CONSENT GATE ═══════════════ -->
   <div id="gate" class="gate" hidden>
     <div class="gate-card" role="dialog" aria-modal="true" aria-labelledby="gateTitle">
@@ -131,11 +152,11 @@
         <p class="tiny">Nothing is stored unless you press Accept. Read everything in our <a href="/terms"
             target="_blank" rel="noopener">Terms &amp; Privacy</a>.</p>
         <div class="gate-actions">
-          <button class="btn btn-red" data-gate="accept" onclick="window._gateAccept && window._gateAccept()">Accept
+          <button class="btn btn-red" data-gate="accept">Accept
             &amp; continue</button>
-          <button class="btn btn-line" data-gate="customize" onclick="window._gateAccept && window._gateAccept()"
+          <button class="btn btn-line" data-gate="customize"
             style="font-size:.82rem;padding:12px 18px">Customize preferences</button>
-          <button class="btn btn-ghost" data-gate="decline" onclick="window._gateDecline && window._gateDecline()">Not
+          <button class="btn btn-ghost" data-gate="decline">Not
             now</button>
         </div>
       </div>
@@ -148,9 +169,8 @@
           <div class="row"><input id="emailInput" type="email" inputmode="email" placeholder="you@example.com"
               autocomplete="email"><button class="btn btn-red" id="btnEmail">Save</button></div>
           <div class="row">
-            <button class="btn btn-ghost" id="btnEmailSkip"
-              onclick="window._gateEmailSkip && window._gateEmailSkip()">Skip this step</button>
-            <button class="btn btn-line" data-gate="finish" onclick="window._gateFinish && window._gateFinish()"
+            <button class="btn btn-ghost" id="btnEmailSkip">Skip this step</button>
+            <button class="btn btn-line" data-gate="finish"
               style="font-size:.82rem">Browse store now</button>
           </div>
         </div>
@@ -162,9 +182,9 @@
         <p>With your phone’s permission we note your <b>district &amp; state</b> — nothing finer — to suggest the
           closest store and show festive offers for your region.</p>
         <div class="gate-actions">
-          <button class="btn btn-navy" id="btnGeo" onclick="window._gateGeo && window._gateGeo()">Allow &amp; share
+          <button class="btn btn-navy" id="btnGeo">Allow &amp; share
             location</button>
-          <button class="btn btn-ghost" id="btnGeoSkip" onclick="window._gateFinish && window._gateFinish()">Finish
+          <button class="btn btn-ghost" id="btnGeoSkip">Finish
             &amp; browse store</button>
         </div>
         <p class="tiny" id="geoMsg"></p>
@@ -199,6 +219,7 @@
 
     <!-- ═══════════════ HERO — 3D scroll-driven ═══════════════ -->
     <section class="hero" id="hero" data-section="hero" aria-label="Welcome">
+      <canvas id="gl" class="hero-canvas" aria-hidden="true"></canvas>
       <video class="hero-video" autoplay muted loop playsinline aria-hidden="true">
         <source src="/assets/LOGO%20VIDEO.mp4" type="video/mp4">
       </video>
@@ -413,19 +434,7 @@
     <!-- ═══════════════ WEDDING FEATURE ═══════════════ -->
     <section class="wed" id="wedding" data-section="wedding">
       <div class="wed-art" aria-hidden="true">
-        <svg viewBox="0 0 600 700">
-          <defs>
-            <linearGradient id="wg" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0" stop-color="#8E1D26" />
-              <stop offset="1" stop-color="#CA2125" />
-            </linearGradient>
-          </defs>
-          <path d="M60 560c140-60 160-260 300-300s220-40 220-40-40 160-160 240-240 140-360 160Z" fill="url(#wg)"
-            opacity=".9" />
-          <path d="M60 560c140-60 160-260 300-300s220-40 220-40" stroke="#203A85" stroke-width="6" fill="none"
-            opacity=".35" />
-          <circle cx="470" cy="150" r="26" fill="#C77F2B" opacity=".85" />
-        </svg>
+        <img src="/assets/img/collection-wedding.jpg" alt="Wedding Collection" loading="lazy">
       </div>
       <div class="wed-copy">
         <p class="kicker">The big days</p>
@@ -436,8 +445,6 @@
           <li data-track="wedding" data-el="family">Matching family occasion sets &amp; coordinated guest wear for the entire wedding party</li>
           <li data-track="wedding" data-el="jewellery">Imitation bridal jewellery — necklaces, bangles, earrings and accessories that pair perfectly with every outfit
           </li>
-          <li data-track="wedding" data-el="gifting">Wedding gifting — linen sets, luggage-of-cloth, customised hampers for guests and family</li>
-          <li data-track="wedding" data-el="tailoring">Bespoke tailoring for the entire baraat — sherwanis, lehengas, suits and traditional wear with precision finishing</li>
         </ul>
         <a class="btn btn-navy" href="#stores" data-track="wedding" data-el="book-visit">Plan a store visit</a>
       </div>
@@ -514,7 +521,7 @@
     </section>
 
     <!-- ═══════════════ SERVICES ═══════════════ -->
-    <section class="services" data-section="services">
+    <section class="services" data-section="services" id="services">
       <header class="sec-head">
         <p class="kicker">Services</p>
         <h2>More than a shop</h2>
@@ -753,6 +760,32 @@
     <p class="foot-line">© 1938–2026 BSC Textiles · Davanagere, Karnataka — all generations reserved.</p>
   </footer>
 
+  <!-- Loading Screen Script (inline, runs immediately) -->
+  <script>
+  (function(){
+    var fill=document.getElementById('loaderFill');
+    var pct=document.getElementById('loaderPct');
+    var loader=document.getElementById('loader');
+    var p=0;
+    function tick(){
+      p+=Math.random()*12+3;
+      if(p>95)p=95;
+      if(fill)fill.style.width=p+'%';
+      if(pct)pct.textContent=Math.round(p)+'%';
+      if(p<95)setTimeout(tick,80+Math.random()*120);
+    }
+    tick();
+    window.addEventListener('load',function(){
+      if(fill)fill.style.width='100%';
+      if(pct)pct.textContent='100%';
+      setTimeout(function(){
+        if(loader)loader.classList.add('hidden');
+        setTimeout(function(){if(loader)loader.style.display='none';},700);
+      },400);
+    });
+  })();
+  </script>
+
   <script src="/vendor/gsap/gsap.min.js" defer></script>
   <script src="/vendor/gsap/ScrollTrigger.min.js" defer></script>
   <script src="/js/content.js" defer></script>
@@ -762,6 +795,8 @@
   <script src="/js/about-board.js" defer></script>
   <script src="/js/motion.js" defer></script>
   <script src="/js/motion-enhance.js" defer></script>
+  <script src="/js/hero2d.js" defer></script>
+  <script type="module" src="/js/hero3d.js" defer></script>
 </body>
 
 </html>

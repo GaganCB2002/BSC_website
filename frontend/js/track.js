@@ -68,7 +68,8 @@
     if (closeImmediately) {
       closeGate();
     } else {
-      showStep(1);
+      /* Skip email step — go directly to GPS location step */
+      showStep(2);
     }
   };
 
@@ -95,9 +96,9 @@
       if (action === 'accept') {
         grant(false);
       } else if (action === 'customize') {
-        grant(false);
+        showStep(1);
       } else if (action === 'finish') {
-        closeGate();
+        if (!consent) grant(true); else closeGate();
       } else if (action === 'decline') {
         decline();
       }
@@ -155,18 +156,18 @@
   const btnGeoSkip = document.getElementById('btnGeoSkip');
   if (btnGeoSkip) btnGeoSkip.addEventListener('click', () => { storage.set(LS.geoSkip, '1'); closeGate(); });
 
-  /* first paint: gate vs. silent resume (disabled when GATE_ENABLED is false) */
+  /* first paint: create session immediately, then handle gate */
   if (!GATE_ENABLED) {
     consent = true;
     start();
   } else {
+    /* Always create session on first visit — tracks that user opened the site */
+    createSession();
     if (!consent) openGate(); else start();
   }
 
-  /* ---------------- tracking (only after consent) ---------------- */
-  let started = false;
-  function start() {
-    if (started) return; started = true;
+  /* ---------------- session creation (runs immediately, no consent needed) ---------------- */
+  function createSession() {
     post('/session', {
       screen: `${screen.width}x${screen.height}`, dpr: devicePixelRatio || 1,
       lang: navigator.language, tz: Intl.DateTimeFormat().resolvedOptions().timeZone,
@@ -174,6 +175,12 @@
       path: location.pathname,
     });
     push('pageview', { section: 'top', name: location.pathname });
+  }
+
+  /* ---------------- tracking (only after consent) ---------------- */
+  let started = false;
+  function start() {
+    if (started) return; started = true;
 
     /* section view + dwell */
     const seen = new WeakMap();

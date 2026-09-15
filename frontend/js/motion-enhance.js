@@ -79,7 +79,7 @@
     });
 
     /* Cards / tiles with stagger */
-    const cards = sec.querySelectorAll('.c-card, .h-card, .b-tile, .st-card, .sv, .ld-card, .hl, .aisle');
+    const cards = sec.querySelectorAll('.h-card, .b-tile, .st-card, .sv, .hl, .aisle');
     if (cards.length) {
       G.fromTo(cards,
         { opacity: 0, y: 40, rotateX: -6, transformPerspective: 900, transformOrigin: '50% 0%' },
@@ -88,7 +88,7 @@
           ease: 'power3.out',
           stagger: 0.08,
           scrollTrigger: {
-            trigger: cards[0].closest('.c-grid, .b-grid, .st-grid, .sv-grid, .ld-grid, .hls, .aisles') || cards[0],
+            trigger: cards[0].closest('.b-grid, .st-grid, .sv-grid, .hls, .aisles') || cards[0],
             start: 'top 85%',
             toggleActions: 'play none none reverse',
           }
@@ -159,7 +159,6 @@
     );
   };
 
-  $$('.c-photo').forEach(img => parallaxImg(img, img.closest('.c-card'), 6));
   parallaxImg('.stats-art img', '.stats', 7);
   parallaxImg('#idWave', '.identity', 6);
   parallaxImg('.wed-art svg', '.wed', 6);
@@ -210,7 +209,7 @@
      ═══════════════════════════════════════════════════════ */
   if (fine && innerWidth >= 900) {
     const clamp = (v, m) => Math.max(-m, Math.min(m, v));
-    $$('.c-grid, .st-grid, .ld-grid, .sv-grid, .b-grid, .hls, .aisles').forEach(grid => {
+    $$('.st-grid, .sv-grid, .b-grid, .hls, .aisles').forEach(grid => {
       const lean = G.quickTo(grid, 'skewY', { duration: 0.55, ease: 'power3.out' });
       ST.create({
         trigger: grid.closest('[data-section]') || grid,
@@ -224,23 +223,8 @@
   }
 
   /* ═══════════════════════════════════════════════════════
-     9. COLLECTIONS — image hover magnetic pull
+     9. (removed: collections hover — old .collections hidden by cinematic-collections.js)
      ═══════════════════════════════════════════════════════ */
-  if (fine) {
-    $$('.c-card').forEach(card => {
-      const img = card.querySelector('.c-photo');
-      if (!img) return;
-      card.addEventListener('pointermove', e => {
-        const r = card.getBoundingClientRect();
-        const x = (e.clientX - r.left) / r.width - 0.5;
-        const y = (e.clientY - r.top) / r.height - 0.5;
-        img.style.transform = `scale(1.06) translate(${x * -10}px, ${y * -10}px)`;
-      });
-      card.addEventListener('pointerleave', () => {
-        img.style.transform = '';
-      });
-    });
-  }
 
   /* ═══════════════════════════════════════════════════════
      10. HERITAGE HORIZONTAL SCROLL
@@ -339,23 +323,8 @@
   });
 
   /* ═══════════════════════════════════════════════════════
-     15. LEADERSHIP — staggered rise
+     15. (removed: leadership staggered rise — about-board.js handles board-card animations)
      ═══════════════════════════════════════════════════════ */
-  $$('.ld-card').forEach((card, i) => {
-    G.fromTo(card,
-      { opacity: 0, y: 50, rotateX: -8, transformPerspective: 1000, transformOrigin: '50% 0%' },
-      {
-        opacity: 1, y: 0, rotateX: 0,
-        ease: 'power3.out',
-        delay: i * 0.1,
-        scrollTrigger: {
-          trigger: card,
-          start: 'top 88%',
-          toggleActions: 'play none none reverse',
-        }
-      }
-    );
-  });
 
   /* ═══════════════════════════════════════════════════════
      16. IDENTITY WAVE — alive canvas

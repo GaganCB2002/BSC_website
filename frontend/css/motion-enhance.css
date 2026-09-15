@@ -67,17 +67,6 @@
   transform: none;
 }
 
-/* ── Visit CTA ── */
-.visit-inner {
-  opacity: 0;
-  transform: translateY(28px);
-  transition: opacity 0.8s ease, transform 0.9s cubic-bezier(.22,.9,.12,1);
-}
-[data-section].seen .visit-inner {
-  opacity: 1;
-  transform: none;
-}
-
 /* ── Scroll progress bar ── */
 .scroll-bar {
   position: fixed;
@@ -104,6 +93,5 @@
   .stats-art { clip-path: none; }
   .stats-art img { transform: none; }
   .prop blockquote { opacity: 1; transform: none; }
-  .visit-inner { opacity: 1; transform: none; }
   .hero h1 .line > span { transform: none; }
 }
