@@ -490,3 +490,29 @@ noscript [data-section] .wed-art{opacity:1;transform:none}
   .stats-art{clip-path:none}
   .stats-art img{transform:none}
 }
+
+/* ---------- whatsapp floating button ---------- */
+.wa-float{
+  position:fixed;top:20px;left:20px;z-index:55;
+  width:56px;height:56px;border-radius:50%;
+  background:#25D366;display:grid;place-items:center;
+  box-shadow:0 4px 14px rgba(37,211,102,.45);
+  transition:transform .3s var(--ease-snap),box-shadow .3s;
+  cursor:pointer;border:0;outline:none;
+  text-decoration:none;color:#fff;
+}
+.wa-float svg{width:28px;height:28px;fill:#fff;pointer-events:none}
+.wa-float:hover{transform:scale(1.1);box-shadow:0 6px 22px rgba(37,211,102,.6)}
+.wa-float:active{transform:scale(.95)}
+.wa-float:focus-visible{outline:3px solid #fff;outline-offset:3px}
+@media(max-width:960px){
+  .wa-float{top:16px;left:16px;width:50px;height:50px}
+  .wa-float svg{width:24px;height:24px}
+}
+@media(max-width:540px){
+  .wa-float{top:14px;left:14px;width:46px;height:46px}
+  .wa-float svg{width:22px;height:22px}
+}
+@media(prefers-reduced-motion:reduce){
+  .wa-float{transition:none}
+}
